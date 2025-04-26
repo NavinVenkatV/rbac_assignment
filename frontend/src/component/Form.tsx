@@ -10,9 +10,28 @@ function CreateBlogForm() {
     const [content, setContent] = useState('');
     const [tags, setTags] = useState('');
 
-    const handleButton = () =>{
+    const handleButton = async () =>{
+        console.log("entered blog submit")
         if(!mainImage || !title || !category || !subtitle || !content || !tags){
             alert("Enter all the inputs admin bro!")
+        }
+        const token = localStorage.getItem('token')
+        console.log(token)
+        if(!token){
+            return;
+        }
+        const blog = await axios.post('http://localhost:3001/createBlog', {
+            mainImage : mainImage,
+            title : title,
+            category : category, 
+            subtitle : subtitle, 
+            content : content,
+            tags : tags
+        }, {
+            headers : {token}
+        })
+        if(blog.data){
+            alert("ok da uploaded")
         }
     }
 
