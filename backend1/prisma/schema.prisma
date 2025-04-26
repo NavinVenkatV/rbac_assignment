@@ -30,11 +30,12 @@ model Blog {
   id          String   @id @default(cuid())
   userId      String
   blog        User     @relation(fields: [userId], references: [id])
+  category    String
   title       String   @unique
   subtitle    String
   // slug        String   @unique
   content     String
-  blogDp      String   
+  // blogDp      String   
   mainImage   String   
   // published   Boolean  @default(false)
   tags        String?
