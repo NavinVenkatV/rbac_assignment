@@ -35,6 +35,11 @@ function HomePage() {
         endPoint();
     }, [])
 
+    const handleOut = ()=>{
+        localStorage.clear();
+        navigate('/')
+      }
+
     return (
         <div className="w-full h-full overflow-hidden text-white bg-black  relative md:rounded-2xl px-2 md:px-5 py-5">
             <div className="relative ">
@@ -51,7 +56,11 @@ function HomePage() {
                 </div>
                 <div className="flex gap-5">
                     <Subscribe title="Subscribe For $0.3/W" />
-                    <Subscribe title="SignIn" />
+                    <Subscribe
+                    onClick={() => {
+                        handleOut();
+                    }}
+                     title="Sign Out" />
                 </div>
             </div>
             {loading ? <div className="relative bg-white pb-7 rounded-xl mt-2 text-black px-2 w-full h-full">

@@ -1,41 +1,49 @@
-// src/pages/Login.jsx
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Spinner from "./ui/Spinner";
 
 function Login() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSubmit = async (e: any) => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [signIn, setSignIn] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false)
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setLoading(true)
     e.preventDefault();
     try {
       if (!email || !password) {
-        alert("Enter the inputs");
+        alert("Please enter both email and password.");
         return;
       }
-      const url = 'http://localhost:3001/signIn';
-      const res = await axios.post(url, { email, password });
 
+      const url = signIn
+        ? 'https://rbac-assignment-39wk.onrender.com/signUp'
+        : 'https://rbac-assignment-39wk.onrender.com/signIn';
+
+      const res = await axios.post(url, { email, password });
       const token = res.data.data.token;
       if (token) {
         localStorage.setItem("token", token);
+        setEmail("");  // Clear email after successful login
+        setPassword("");  // Clear password after successful login
       }
+      setLoading(false)
       navigate('/home');
     } catch (error) {
       console.error("Error:", error);
-      alert("User doesn't exists, please sign up!");
+      alert("User doesn't exists, please sign up");
     }
   };
 
   return (
     <div className="flex w-full h-screen px-3 justify-center gap-10 overflow-y-hidden items-center md:bg-gray-100">
-      <div className="md:flex  my-12 gap-20 rounded-2xl shadow-2xl overflow-hidden max-w-5xl w-full">
-        
+      <div className="md:flex my-12 gap-20 rounded-2xl shadow-2xl overflow-hidden max-w-5xl w-full">
+
         {/* Left side - Form */}
         <div className="w-full md:w-1/2 md:p-10 p-4 bg-neutral-700 text-white rounded-2xl flex flex-col justify-center">
-          <h1 className="text-2xl md:text-4xl font-bold  mb-6 text-orange-700 font-source-serif">
+          <h1 className="text-2xl md:text-4xl font-bold mb-6 text-orange-700 font-source-serif">
             Welcome to Newshub
           </h1>
 
@@ -64,15 +72,16 @@ function Login() {
             </div>
 
             <button
-            onClick={handleSubmit}
               type="submit"
-              className="w-full bg-black text-white p-3 rounded-lg hover:bg-white text-xl hover:text-black mt-7 cursor-pointer transition-all duration-200 font-source-serif"
+              className="w-full bg-black text-white text-center p-3 rounded-lg hover:bg-white text-xl hover:text-black mt-7 cursor-pointer transition-all duration-200 font-source-serif"
             >
-              Submit
+              {loading ? <div className="w-full text-center flex justify-center items-center">
+                <Spinner /> 
+              </div>: (signIn ? "Sign Up" : "Sign In")}
             </button>
 
-            {/* <p
-              onClick={() => setSignIn((prev) => !prev)}
+            <p
+              onClick={() => setSignIn(prev => !prev)}
               className="text-center cursor-pointer"
             >
               {signIn ? (
@@ -80,7 +89,7 @@ function Login() {
               ) : (
                 <>Don't have an account? <span className="text-orange-700 hover:text-orange-600">Click</span></>
               )}
-            </p> */}
+            </p>
           </form>
         </div>
 
