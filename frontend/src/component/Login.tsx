@@ -7,7 +7,6 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [signIn, setSignIn] = useState(false); // false -> SignIn, true -> SignUp
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -16,7 +15,7 @@ function Login() {
         alert("Enter the inputs");
         return;
       }
-      const url = signIn ? 'http://localhost:3001/signUp' : 'http://localhost:3001/signIn';
+      const url = 'http://localhost:3001/signIn';
       const res = await axios.post(url, { email, password });
 
       const token = res.data.data.token;
@@ -65,13 +64,14 @@ function Login() {
             </div>
 
             <button
+            onClick={handleSubmit}
               type="submit"
               className="w-full bg-black text-white p-3 rounded-lg hover:bg-white text-xl hover:text-black mt-7 cursor-pointer transition-all duration-200 font-source-serif"
             >
-              {signIn ? "Sign Up" : "Sign In"}
+              Submit
             </button>
 
-            <p
+            {/* <p
               onClick={() => setSignIn((prev) => !prev)}
               className="text-center cursor-pointer"
             >
@@ -80,7 +80,7 @@ function Login() {
               ) : (
                 <>Don't have an account? <span className="text-orange-700 hover:text-orange-600">Click</span></>
               )}
-            </p>
+            </p> */}
           </form>
         </div>
 
