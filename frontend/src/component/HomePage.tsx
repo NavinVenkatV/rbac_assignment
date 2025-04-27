@@ -6,26 +6,31 @@ import axios from "axios"
 import Photo from "./Photo"
 import Footer from "./Footer"
 import { useNavigate } from "react-router-dom";
+import Skeleton from '@mui/material/Skeleton';
 
 function HomePage() {
     type Blog = {
-        id : string, 
-        title : string, 
-        category : string, 
-        mainImage : string
+        id: string,
+        title: string,
+        category: string,
+        mainImage: string
     }
     const navigate = useNavigate();
     const [blogs, setBlogs] = useState<Blog[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const token = localStorage.getItem('token')
-        if(!token){
+        if (!token) {
             navigate('/')
         }
         const endPoint = async () => {
             const res = await axios.get('https://rbac-assignment-39wk.onrender.com/get-all-blogs');
             console.log(res.data);
             setBlogs(res.data.blogs)
+            if (res.data) {
+                    setLoading(false)
+            }
         }
         endPoint();
     }, [])
@@ -49,20 +54,49 @@ function HomePage() {
                     <Subscribe title="SignIn" />
                 </div>
             </div>
-            <div className="relative bg-white pb-7 rounded-xl mt-2 text-black px-2 w-full h-full">
+            {loading ? <div className="relative bg-white pb-7 rounded-xl mt-2 text-black px-2 w-full h-full">
                 <div className="text-black text-center text-4xl py-3">All Categories</div>
                 <hr />
                 <div className="flex flex-wrap gap-8 justify-center mt-7">
-                    {blogs.map((b, i) => (
-                        <div key={i} className="w-[400px] h-auto"> {/* Set fixed size for each image container */}
-                            <Photo onClick={() =>{
-                                navigate(`/blog?id=${b.id}`)
-                            }} title={b.title} category={b.category} image={b.mainImage} />
+                    {Array.from({ length: 12 }).map((_, index) => (
+                        <div key={index}>
+                            <Skeleton
+                                variant="rectangular"
+                                width={400}
+                                height={200}
+                                className="mb-3 rounded-2xl"
+                            />
+                            <Skeleton
+                                variant="text"
+                                width={100}
+                                height={10}
+                                className="mt-16"
+                            />
+                            <Skeleton
+                                variant="rounded"
+                                width={210}
+                                height={10}
+                                className="mt-2"
+                            />
                         </div>
                     ))}
                 </div>
-            </div>
-            <Footer/>
+
+            </div> :
+                <div className="relative bg-white pb-7 rounded-xl mt-2 text-black px-2 w-full h-full">
+                    <div className="text-black text-center text-4xl py-3">All Categories</div>
+                    <hr />
+                    <div className="flex flex-wrap gap-8 justify-center mt-7">
+                        {blogs.map((b, i) => (
+                            <div key={i} className="w-[400px] h-auto"> {/* Set fixed size for each image container */}
+                                <Photo onClick={() => {
+                                    navigate(`/blog?id=${b.id}`)
+                                }} title={b.title} category={b.category} image={b.mainImage} />
+                            </div>
+                        ))}
+                    </div>
+                </div>}
+            <Footer />
         </div>
     )
 }
