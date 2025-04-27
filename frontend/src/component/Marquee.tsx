@@ -1,5 +1,4 @@
-import React from 'react'
-import {easeInOut, motion} from "framer-motion"
+import { motion} from "framer-motion"
 
 const uMarquee = [
     '01.svg',

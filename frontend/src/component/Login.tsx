@@ -4,44 +4,43 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [signIn, setSignIn] = useState(false); // false -> SignIn, true -> SignUp
 
-  const handleSubmit = async (e : any) => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
     try {
-      console.log("Entered handleSubmit ra")
-      if(!email || !password ){
-        alert("Enter the inputs")
+      if (!email || !password) {
+        alert("Enter the inputs");
         return;
       }
-      const res = await axios.post('http://localhost:3001/signUp', {
-        email : email, 
-        password : password
-      })
-      // console.log(res.data.data.token)
-      const token = res.data.data.token
-      if(res.data){
+      const url = signIn ? 'http://localhost:3001/signUp' : 'http://localhost:3001/signIn';
+      const res = await axios.post(url, { email, password });
+
+      const token = res.data.data.token;
+      if (token) {
         localStorage.setItem("token", token);
       }
-      if(res.data.data.email === "vnavinvenkat@gmail.com"){
-        navigate('/admin')
-      }else{
-        navigate('/')
-      }
+      navigate('/home');
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred during login.");
+      alert("User doesn't exists, please sign up!");
     }
   };
 
   return (
-    <div className="flex h-full justify-center gap-10 overflow-y-hidden items-center bg-gray-100">
-      <div className="flex my-12 gap-20 rounded-2xl shadow-2xl overflow-hidden max-w-5xl w-full">
+    <div className="flex w-full h-screen px-3 justify-center gap-10 overflow-y-hidden items-center md:bg-gray-100">
+      <div className="md:flex  my-12 gap-20 rounded-2xl shadow-2xl overflow-hidden max-w-5xl w-full">
+        
         {/* Left side - Form */}
-        <div className="w-1/2 p-10 bg-neutral-700 text-white rounded-2xl flex flex-col justify-center">
-          <h1 className="text-4xl font-bold text-center mb-6 text-orange-700 font-source-serif">Welcome to newshub</h1>
-          <div className="space-y-5">
+        <div className="w-full md:w-1/2 md:p-10 p-4 bg-neutral-700 text-white rounded-2xl flex flex-col justify-center">
+          <h1 className="text-2xl md:text-4xl font-bold  mb-6 text-orange-700 font-source-serif">
+            Welcome to Newshub
+          </h1>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block mb-1 text-white font-source-serif">Email</label>
               <input
@@ -64,18 +63,29 @@ function Login() {
                 required
               />
             </div>
+
             <button
               type="submit"
-              onClick={handleSubmit}
-              className="w-full bg-black text-white p-3 rounded-lg hover:bg-white text-xl  hover:text-black mt-7 cursor-pointer transition-all duration-200 font-source-serif"
+              className="w-full bg-black text-white p-3 rounded-lg hover:bg-white text-xl hover:text-black mt-7 cursor-pointer transition-all duration-200 font-source-serif"
             >
-              Login
+              {signIn ? "Sign Up" : "Sign In"}
             </button>
-          </div>
+
+            <p
+              onClick={() => setSignIn((prev) => !prev)}
+              className="text-center cursor-pointer"
+            >
+              {signIn ? (
+                <>Already have an account? <span className="text-orange-700 hover:text-orange-600">Click</span></>
+              ) : (
+                <>Don't have an account? <span className="text-orange-700 hover:text-orange-600">Click</span></>
+              )}
+            </p>
+          </form>
         </div>
 
         {/* Right side - Video */}
-        <div className="w-1/2">
+        <div className="md:w-1/2 hidden md:block">
           <video
             src="/vid2.mp4"
             autoPlay
@@ -85,6 +95,7 @@ function Login() {
             className="w-full h-full object-cover"
           ></video>
         </div>
+
       </div>
     </div>
   );

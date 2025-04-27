@@ -13,6 +13,8 @@
     "@studio-freight/lenis": "^1.0.42",
     "@tailwindcss/vite": "^4.1.4",
     "axios": "^1.9.0",
+    "hamburger-react": "^2.5.2",
+    "jwt-decode": "^4.0.0",
     "motion": "^12.9.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

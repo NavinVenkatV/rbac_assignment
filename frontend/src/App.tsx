@@ -5,6 +5,7 @@ import Admin from './component/Admin';
 import Login from './component/Login';
 import { useEffect } from 'react';
 import Lenis from "@studio-freight/lenis";
+import UniqueBlog from './component/UniqueBlog';
 
 
 
@@ -21,13 +22,14 @@ function App() {
     requestAnimationFrame(raf);
 
   }, []);
-  
+
   return (
-   <div className='bg-white px-7 pt-2 w-scren h-full'>
+   <div className='bg-white md:px-7 md:pt-2 w-scren h-full'>
      <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/home" element={<HomePage />} />
       <Route path="/admin" element={<Admin />} />
-      <Route path="/signIn" element={<Login />} />
+      <Route path="/" element={<Login />} />
+      <Route path='/blog' element={<UniqueBlog />} />
     </Routes>
    </div>
   );

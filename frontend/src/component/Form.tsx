@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from "axios"
+import Footer from './Footer';
 
 function CreateBlogForm() {
     // const [blogDp, setBlogDp] = useState<File | null>(null);
@@ -57,9 +58,10 @@ function CreateBlogForm() {
       
 
     return (
-        <div className="w-full flex gap-36 px-32 mt-10 bg-neutral-800 text-white shadow-lg rounded-2xl p-8">
-            <div >
-                <h2 className="font-bold mb-6 text-7xl text-center text-orange-700 ">Create New Blog</h2>
+        <div className="w-full  md:px-32 mt-10 bg-neutral-800 text-white shadow-lg rounded-2xl md:p-8">
+            <div className=' md:flex md:gap-36'>
+            <div className='py-10'>
+                <h2 className="font-bold mb-6 text-2xl md:text-7xl text-center text-orange-700 ">Create New Blog</h2>
                 <hr />
                 <video
                     className="mt-5 w-[500px] h-[600px] rounded-2xl object-cover"
@@ -70,7 +72,7 @@ function CreateBlogForm() {
                     playsInline
                 ></video>            
             </div>
-            <div  className='w-[500px] mt-22'>
+            <div  className='w-full md:w-[500px] mt-22 p-2 py-10'>
                 {/* Upload Blog DP
                 <div className="mb-5">
                     <label className="block text-white text-2xl font-semibold mb-2">Upload Blog Display Image</label>
@@ -162,6 +164,10 @@ function CreateBlogForm() {
                         Create Blog
                     </button>
                 </div>
+            </div>
+            </div>
+            <div className='mt-10'>
+            <Footer/>
             </div>
         </div>
     );
