@@ -1,6 +1,7 @@
 
 function Button({title} : {
-    title : string
+    title : string,
+    // onClick : () => void;
 }) {
   return (
     <div className="text-lg transition-all cursor-pointer 

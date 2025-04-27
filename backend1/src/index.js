@@ -103,35 +103,74 @@ app.post('/signIn', async (req, res) => {
 
 
 app.post('/createBlog', upload.fields([{ name: 'mainImage' }]),
-    async (req, res) => {
-        const { title, category, subtitle, content, tags } = req.body;
-        //chech the user is an admin
-        try {
-            const user = await prisma.user.findUnique({
-                where: {
-                    email: "vnavinvenkat@gmail.com"
-                }
-            })
-            if (email != "vnavinvenkat@gmail.com") {
-                return res.status(401).json({ msg: "Only admin allowed to handle the blogs!" })
-            }
-            const createBlog = await prisma.blog.create({
-                data: {
-                    userId: user.id,
-                    category,
-                    title,
-                    subtitle,
-                    content,
-                    tags,
-                    mainImage: req.files['mainImage'][0].path,
-                }
-            })
-            return res.json({ msg: "Blog created successfully!", blog: createBlog.id })
-        } catch (e) {
-            console.error(e)
-            return res.json({ msg: "Error creating Blog!" })
+  async (req, res) => {
+    console.log('Received /createBlog request');
+    const { title, category, subtitle, content, tags } = req.body;
+    
+    try {
+      const user = await prisma.user.findUnique({
+        where: { email: "vnavinvenkat@gmail.com" }
+      });
+
+      if (!user) {
+        return res.status(404).json({ msg: "User not found!" });
+      }
+
+      if (!req.files || !req.files['mainImage'] || !req.files['mainImage'][0]) {
+        return res.status(400).json({ msg: "Main image file is missing!" });
+      }
+
+      const createBlog = await prisma.blog.create({
+        data: {
+          userId: user.id,
+          category,
+          title,
+          subtitle,
+          content,
+          tags,
+          mainImage: req.files['mainImage'][0].path, // now safe
+        }
+      });
+
+      return res.json({ msg: "Blog created successfully!", blog: createBlog.id });
+      
+    } catch (e) {
+      console.error(e);
+      return res.status(400).json({ msg: "Error creating Blog!" });
+    }
+});
+
+
+    app.get('/get-all-blogs', async (req, res) =>{
+        try{
+            const blogs = await prisma.blog.findMany({})
+            return res.status(201).json({
+                message: "Blog retrieved successfully",
+                blogs : blogs
+            });
+
+        }catch(e){
+            return res.status(400).json({msg : "Something went wrong!"})
         }
     })
+
+    app.get('/get-blog', async (req, res) =>{
+        try{
+            console.log("enterred endpoineeeeeeeeeeeeeee")
+            const {id} = req.query;
+            console.log(id)
+            const blog = await prisma.blog.findUnique({
+                where : {
+                    id : id
+                }
+            })
+            console.log(blog)
+            return res.json({msg : "Blog retrieved successfully", blog: blog})
+        }catch(e){
+            return res.status(400).json({msg : "Something went wrong!"})
+        }
+    })
+    
 // app.post('/createBlog', authMiddleware, upload.fields([{ name: 'bloDp' }, { name: 'mainImage' }]),
 //     async (req, res) => {
 //         const { title, subtitle, content, tags } = req.body;

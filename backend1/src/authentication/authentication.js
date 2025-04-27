@@ -3,11 +3,11 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const authMiddleware = (req, res, next) => {
+  console.log("enterred midddddddddleewarreeeeeeeeeeeeeeeeee")
   const authHeader = req.headers;
   if (!authHeader) {
     return res.status(401).json({ message: "No token provided" });
   }
-
   const token = authHeader
 
   try {

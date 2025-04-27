@@ -10,30 +10,51 @@ function CreateBlogForm() {
     const [content, setContent] = useState('');
     const [tags, setTags] = useState('');
 
-    const handleButton = async () =>{
-        console.log("entered blog submit")
-        if(!mainImage || !title || !category || !subtitle || !content || !tags){
-            alert("Enter all the inputs admin bro!")
+    const handleButton = async () => {
+        console.log("entered blog submit");
+      
+        if (!mainImage || !title || !category || !subtitle || !content || !tags) {
+          alert("Enter all the inputs admin bro!");
+          return;
         }
-        const token = localStorage.getItem('token')
-        console.log(token)
-        if(!token){
-            return;
+      
+        const token = localStorage.getItem('token');
+        if (!token) {
+          alert("Token missing!");
+          return;
         }
-        const blog = await axios.post('http://localhost:3001/createBlog', {
-            mainImage : mainImage,
-            title : title,
-            category : category, 
-            subtitle : subtitle, 
-            content : content,
-            tags : tags
-        }, {
-            headers : {token}
-        })
-        if(blog.data){
-            alert("ok da uploaded")
+      
+        const formData = new FormData();
+        formData.append('mainImage', mainImage);
+        formData.append('title', title);
+        formData.append('category', category);
+        formData.append('subtitle', subtitle);
+        formData.append('content', content);
+        formData.append('tags', tags);
+      
+        try {
+          const blog = await axios.post('http://localhost:3001/createBlog', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',  // Important!!
+              token
+            }
+          });
+      
+          if (blog.data) {
+            alert("ok da uploaded");
+            setMainImage(null);
+            setCategory('');
+            setContent('')
+            setSubtitle('')
+            setTags('');
+            setTitle('')
+          }
+        } catch (error) {
+          console.error(error);
+          alert("Error uploading blog!");
         }
-    }
+      };
+      
 
     return (
         <div className="w-full flex gap-36 px-32 mt-10 bg-neutral-800 text-white shadow-lg rounded-2xl p-8">
