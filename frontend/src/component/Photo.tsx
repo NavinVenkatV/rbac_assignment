@@ -5,7 +5,7 @@ interface Typess {
     image: any;
     category: any;
     onClick: () => void;
-    admin?: boolean;
+    admin?: boolean
 }
 
 function Photo({ title, admin, image, category, onClick }: Typess) {
@@ -23,7 +23,7 @@ function Photo({ title, admin, image, category, onClick }: Typess) {
             </div>
             <p
                 onClick={onClick}
-                className="text-xl cursor-pointer hover:text-orange-700 transition-all duration-200 ease-in-out"
+                className="text-xl cursor-pointer text-neutral-600  hover:text-orange-700 transition-all duration-200 ease-in-out"
             >
                 {title}...<span className="text-sm">more</span>
             </p>

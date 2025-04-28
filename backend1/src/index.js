@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
 import cors from "cors"
 dotenv.config();
-import { authMiddleware } from "./authentication/authentication.js";
+// import { authMiddleware } from "./authentication/authentication.js";
 import { PrismaClient } from "@prisma/client";
 import { upload } from "../multer/multer.js";
 import AWS from 'aws-sdk';
@@ -28,14 +28,14 @@ app.post("/signUp", async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-        return res.status(400).json({ message: "Email and password are required" });
+        return res.status(400).json({ msg: "Email and password are required" });
     }
 
     try {
 
         const existingUser = await prisma.user.findUnique({ where: { email } });
         if (existingUser) {
-            return res.status(400).json({ message: "Email already registered" });
+            return res.status(400).json({ msg: "Email already registered" });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -56,7 +56,7 @@ app.post("/signUp", async (req, res) => {
         );
 
         return res.status(201).json({
-            message: "User created successfully",
+            msg: "User created successfully",
             data: {
                 userId: user.id,
                 email: user.email,
@@ -65,7 +65,7 @@ app.post("/signUp", async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: "Internal server error" });
+        return res.status(500).json({ msg: "Internal server error" });
     }
 });
 
@@ -96,7 +96,7 @@ app.post('/signIn', async (req, res) => {
         );
 
         return res.status(201).json({
-            message: "User created successfully",
+            msg: "User created successfully",
             data: {
                 userId: user.id,
                 email: user.email,
@@ -174,7 +174,7 @@ app.get('/get-all-blogs', async (req, res) => {
     try {
         const blogs = await prisma.blog.findMany({})
         return res.status(201).json({
-            message: "Blog retrieved successfully",
+            msg: "Blog retrieved successfully",
             blogs: blogs
         });
 

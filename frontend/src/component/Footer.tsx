@@ -14,7 +14,7 @@ function Footer() {
                     <div className='flex gap-1 items-center text-neutral-500 font-bold'>
                         <div>Current Status</div>
                         <div className='flex items-center mt-1'>
-                            <span className='w-2 h-2  bg-green-600 rounded-full'></span>
+                            <span className='w-2 h-2 mb-1  bg-green-600 rounded-full'></span>
                         </div>
                     </div>
                 </div>

@@ -8,7 +8,8 @@ function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [signIn, setSignIn] = useState<boolean>(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [msg, setMsg] = useState('');
 
   useEffect(() =>{
     console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
@@ -31,18 +32,19 @@ function Login() {
         : 'https://rbac-assignment-39wk.onrender.com/signIn';
 
       const res = await axios.post(url, { email, password });
+      setMsg(res.data.data.msg)
       const token = res.data.data.token;
       if (token) {
         localStorage.setItem("token", token);
-        setEmail("");  // Clear email after successful login
-        setPassword("");  // Clear password after successful login
+        setEmail("");  
+        setPassword("");  
       }
       setLoading(false)
       navigate('/home');
     } catch (error) {
       console.error("Error:", error);
       setLoading(false)
-      alert("User doesn't exists, please sign up");
+      alert(error);
     }
   };
 
