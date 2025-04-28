@@ -205,7 +205,7 @@ app.get('/get-blog', async (req, res) => {
     }
 })
 
-app.get('/delete-blog', async (req, res) => {
+app.delete('/delete-blog', async (req, res) => {
     try {
         const { id } = req.query;
         console.log(id)
@@ -251,6 +251,6 @@ app.get('/delete-blog', async (req, res) => {
 //         }
 //     })
 
-app.listen(3001, () => {
+app.listen(process.env.PORT, () => {
     console.log("App listening on port 3001")
 })

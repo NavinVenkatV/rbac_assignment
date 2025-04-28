@@ -14,9 +14,9 @@ interface Typess {
 function Photo({ title, admin, image, id, setIsDelete, category, onClick }: Typess) {
     const handleDelete = async () =>{
         try{
-            await axios.delete(`https://rbac-assignment-1.onrender.com/get-blog?id=${id}`)
+            await axios.delete(`https://rbac-assignment-1.onrender.com/delete-blog?id=${id}`)
             alert("Deleted Successfully");
-            setIsDelete((prev : boolean) => !prev)
+            setIsDelete((prev : any) => !prev)
         }catch(e){
             alert("Something went wrong!")
             console.log(e);
