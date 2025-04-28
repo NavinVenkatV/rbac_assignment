@@ -9,7 +9,6 @@ function Login() {
   const [password, setPassword] = useState<string>("");
   const [signIn, setSignIn] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
-  const [msg, setMsg] = useState('');
 
   useEffect(() =>{
     console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
@@ -33,7 +32,6 @@ function Login() {
 
       const res = await axios.post(url, { email, password });
       console.log(res.data.response)
-      setMsg(res.data.data.msg)
       const token = res.data.data.token;
       if (token) {
         localStorage.setItem("token", token);
