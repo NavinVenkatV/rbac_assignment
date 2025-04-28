@@ -27,7 +27,7 @@ function Login() {
     try {
       setLoading(true);
   
-      const url = signIn
+      const url = !signIn
         ? 'https://rbac-assignment-1.onrender.com/signIn' // Correct: signIn => /signIn
         : 'https://rbac-assignment-1.onrender.com/signUp'; // Correct: signUp => /signUp
   
