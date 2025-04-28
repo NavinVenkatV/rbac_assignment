@@ -53,7 +53,6 @@ function CreateBlogForm() {
         try {
             const response = await axios.post('https://rbac-assignment-39wk.onrender.com/createBlog', formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
                     token,  
                 },
             });

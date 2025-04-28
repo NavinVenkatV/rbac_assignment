@@ -13,7 +13,7 @@ const prisma = new PrismaClient();
 const app = express();
 app.use(express.json());
 app.use(cors({
-    origin: 'https://nav-news-hub.vercel.app', // no trailing slash
+    origin: 'https://nav-news-hub.vercel.app', 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
