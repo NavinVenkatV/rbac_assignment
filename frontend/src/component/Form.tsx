@@ -13,7 +13,7 @@ function CreateBlogForm() {
     const [loading, setLoading] = useState('Create Blog')
 
     const handleButton = async () => {
-        setLoading('Sumitting...')
+        setLoading('Submitting...')
         console.log("Entered blog submit");
     
         // Check for missing fields
@@ -67,7 +67,10 @@ function CreateBlogForm() {
                 setSubtitle('');
                 setTags('');
                 setTitle('');
-                setLoading('Submitted!')
+                setTimeout(() =>{
+                    setLoading('Submitted!')
+                }, 2000)
+                setLoading("Submit")
             }
         } catch (error) {
             console.error("Error:", error);
