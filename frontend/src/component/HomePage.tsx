@@ -28,7 +28,7 @@ function HomePage() {
     }
     useEffect(() =>{
         const endPoint = async () => {
-            const res = await axios.get('https://rbac-assignment-39wk.onrender.com/get-all-blogs');
+            const res = await axios.get('https://rbac-assignment-1.onrender.com/get-all-blogs');
             console.log(res.data);
             setBlogs(res.data.blogs)
             if (res.data.blogs) {

@@ -31,7 +31,7 @@ function UniqueBlog() {
         const id = queryParams.get('id');
         console.log(id)
         const endPoint = async () => {
-            const res = await axios.get(`https://rbac-assignment-39wk.onrender.com/get-blog?id=${id}`)
+            const res = await axios.get(`https://rbac-assignment-1.onrender.com/get-blog?id=${id}`)
             console.log(res.data);
             setBlogs(res.data.blog)
             setLoading(false)

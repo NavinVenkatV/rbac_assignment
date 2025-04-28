@@ -27,8 +27,8 @@ function Login() {
     try {
       setLoading(true)
       const url = signIn
-        ? 'https://rbac-assignment-39wk.onrender.com/signUp'
-        : 'https://rbac-assignment-39wk.onrender.com/signIn';
+        ? 'https://rbac-assignment-1.onrender.com/signUp'
+        : 'https://rbac-assignment-1.onrender.com/signIn';
 
       const res = await axios.post(url, { email, password });
       console.log(res.data.response)

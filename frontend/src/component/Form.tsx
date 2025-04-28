@@ -51,7 +51,7 @@ function CreateBlogForm() {
         formData.append("tags", tags);
     
         try {
-            const response = await axios.post('https://rbac-assignment-39wk.onrender.com/createBlog', formData, {
+            const response = await axios.post('https://rbac-assignment-1.onrender.com/createBlog', formData, {
                 headers: {
                     token,  
                 },
