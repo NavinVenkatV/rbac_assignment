@@ -4,6 +4,7 @@ import Nav from "./Nav"
 import Button from "./ui/Button"
 import Subscribe from "./ui/Sunscribe"
 import { useNavigate } from "react-router-dom";
+import Footer from "./Footer"
 
 function HomePage() {
     const navigate =  useNavigate();
@@ -13,6 +14,10 @@ function HomePage() {
             navigate('/')
         }
     },[])
+    const handleOut = ()=>{
+        localStorage.clear();
+        navigate('/')
+      }
     return (
         <div className="w-full h-full overflow-hidden text-white bg-black  relative md:rounded-2xl px-2 md:px-5 py-5">
             <div>
@@ -30,13 +35,18 @@ function HomePage() {
                 </div>
                 <div className="flex gap-5">
                     <Subscribe title="Subscribe For $0.3/W" />
-                    <Subscribe title="SignIn" />
+                    <Subscribe
+                    onClick={() => {
+                        handleOut();
+                    }}
+                     title="Sign Out" />
                 </div>
             </div>
             <div className="relative  pb-7 md:mt-10">
             <CreateBlogForm/>
 
             </div>
+            <Footer/>
             
 
         </div>

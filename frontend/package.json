@@ -15,7 +15,9 @@
     "@mui/material": "^7.0.2",
     "@studio-freight/lenis": "^1.0.42",
     "@tailwindcss/vite": "^4.1.4",
+    "aws-sdk": "^2.1692.0",
     "axios": "^1.9.0",
+    "dotenv": "^16.5.0",
     "hamburger-react": "^2.5.2",
     "jwt-decode": "^4.0.0",
     "motion": "^12.9.2",
@@ -30,6 +32,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
+    "@types/node": "^22.15.2",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",

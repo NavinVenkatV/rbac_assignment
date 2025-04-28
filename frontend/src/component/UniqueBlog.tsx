@@ -61,34 +61,33 @@ function UniqueBlog() {
             </div>
             <div className="relative bg-white rounded-xl pb-7 mt-2 text-black px-2 w-full h-full">
                 {loading ? (
-                    <div className="p-5">
+                    <div className="md:p-5">
                         <Skeleton
-                                variant="text"
-                                width={100}
-                                height={10}
-                                className="mt-16"
-                            />
-                            <Skeleton
-                                variant="rounded"
-                                width={210}
-                                height={10}
-                                className="mt-2"
-                            />
+                            variant="text"
+                            width={100}
+                            height={10}
+                            className="mt-16"
+                        />
                         <Skeleton
-                                variant="rectangular"
-                                width={1000}
-                                height={500}
-                                className="mb-3 rounded-2xl mt-5 w-full text-center flex justify-center"
-                            />
+                            variant="rounded"
+                            width={210}
+                            height={10}
+                            className="mt-2"
+                        />
+                        <Skeleton
+                            variant="rectangular"
+                            width={1000}
+                            height={500}
+                            className="mb-3 rounded-2xl mt-5 w-full text-center flex justify-center"
+                        />
                     </div>
                 ) : (
                     <div>
-                        <div className="text-black font-bold text-3xl md:text-6xl py-3">{blogs.category}</div>
+                        <div className="text-black text-center font-bold text-2xl md:text-3xl py-3">{blogs.category}</div>
                         <div className="flex flex-col gap-2">
-                            <p className="text-2xl md:text-3xl font-bold text-orange-700">{blogs.title}</p>
-                            <hr />
+                            <p className="text-3xl text-center md:text-6xl font-bold text-orange-700">{blogs.subtitle}</p>
                             <div className="flex justify-center">
-                                <img src={`http://localhost:3001/${blogs.mainImage} `}
+                                <img src={blogs.mainImage}
                                     alt="" className="rounded-xl w-[1000px] h-[500px] mt-3 object-cover" />
                             </div>
                             <p className="text-xl mt-3 whitespace-pre-line">{blogs.content}</p>

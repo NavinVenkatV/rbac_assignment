@@ -100,7 +100,7 @@ function Nav() {
         initial={{ y: 10 }}
         animate={{ y: 0 }}
         transition={{ ease: "easeInOut" }}
-        className="flex justify-center items-center text-[70px] md:text-[300px] relative top-1 md:-top-16 text-center mb-10 leading-none font-source-serif font-bold">
+        className="flex justify-center items-center text-[60px] md:text-[300px] relative top-1 md:-top-16 text-center mb-10 leading-none font-source-serif font-bold">
         news <span className="text-orange-700">hub</span>
       </motion.p>
     </div>

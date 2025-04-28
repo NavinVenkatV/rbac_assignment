@@ -7,6 +7,7 @@ dotenv.config();
 import { authMiddleware } from "./authentication/authentication.js";
 import { PrismaClient } from "@prisma/client";
 import { upload } from "../multer/multer.js";
+import AWS from 'aws-sdk';
 const prisma = new PrismaClient();
 
 const app = express();
@@ -14,6 +15,14 @@ app.use(express.json());
 app.use(cors())
 app.use('/uploads', express.static('uploads'))
 
+AWS.config.update({
+    accessKeyId: process.env.Access_key_ID,
+    secretAccessKey: process.env.Secret_access_key,
+    region: process.env.REGION,
+    signatureVersion: 'v4',
+});
+
+const s3 = new AWS.S3(); 
 
 app.post("/signUp", async (req, res) => {
     const { email, password } = req.body;
@@ -103,74 +112,109 @@ app.post('/signIn', async (req, res) => {
 
 
 app.post('/createBlog', upload.fields([{ name: 'mainImage' }]),
-  async (req, res) => {
-    console.log('Received /createBlog request');
-    const { title, category, subtitle, content, tags } = req.body;
-    
-    try {
-      const user = await prisma.user.findUnique({
-        where: { email: "vnavinvenkat@gmail.com" }
-      });
+    async (req, res) => {
+        console.log('Received /createBlog request');
+        const { title, category, subtitle, content, tags } = req.body;
 
-      if (!user) {
-        return res.status(404).json({ msg: "User not found!" });
-      }
-
-      if (!req.files || !req.files['mainImage'] || !req.files['mainImage'][0]) {
-        return res.status(400).json({ msg: "Main image file is missing!" });
-      }
-
-      const createBlog = await prisma.blog.create({
-        data: {
-          userId: user.id,
-          category,
-          title,
-          subtitle,
-          content,
-          tags,
-          mainImage: req.files['mainImage'][0].path, // now safe
-        }
-      });
-
-      return res.json({ msg: "Blog created successfully!", blog: createBlog.id });
-      
-    } catch (e) {
-      console.error(e);
-      return res.status(400).json({ msg: "Error creating Blog!" });
-    }
-});
-
-
-    app.get('/get-all-blogs', async (req, res) =>{
-        try{
-            const blogs = await prisma.blog.findMany({})
-            return res.status(201).json({
-                message: "Blog retrieved successfully",
-                blogs : blogs
+        try {
+            const user = await prisma.user.findUnique({
+                where: { email: "vnavinvenkat@gmail.com" }
             });
 
-        }catch(e){
-            return res.status(400).json({msg : "Something went wrong!"})
-        }
-    })
+            if (!user) {
+                return res.status(404).json({ msg: "User not found!" });
+            }
 
-    app.get('/get-blog', async (req, res) =>{
-        try{
-            console.log("enterred endpoineeeeeeeeeeeeeee")
-            const {id} = req.query;
-            console.log(id)
-            const blog = await prisma.blog.findUnique({
-                where : {
-                    id : id
-                }
-            })
-            console.log(blog)
-            return res.json({msg : "Blog retrieved successfully", blog: blog})
-        }catch(e){
-            return res.status(400).json({msg : "Something went wrong!"})
+            if (!req.files || !req.files['mainImage'] || !req.files['mainImage'][0]) {
+                return res.status(400).json({ msg: "Main image file is missing!" });
+            }
+
+            console.log(req.files['mainImage'])
+
+            const params = {
+                Bucket: process.env.BUCKET_NAME,   // Your S3 Bucket name
+                Key: `${Date.now()}-${req.files['mainImage'][0].originalname}`,  // File name in S3 (unique)
+                Body: req.files['mainImage'][0].buffer,  // The file content (buffer from multer)
+                ContentType: req.files['mainImage'][0].mimetype,  // MIME type (image/jpeg, image/png, etc.)
+            };
+
+            if (!params.Body) {
+                console.error("File buffer is missing!");
+                return res.status(400).json({ msg: "File buffer is missing!" });
+            }
+
+            const upload = await s3.upload(params).promise();
+            console.log("AWSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS", upload)
+
+            if (upload) {
+                const createBlog = await prisma.blog.create({
+                    data: {
+                        userId: user.id,
+                        category,
+                        title,
+                        subtitle,
+                        content,
+                        tags,
+                        mainImage: upload.Location, // now safe
+                    }
+                });
+                return res.json({ msg: "Blog created successfully!", blog: createBlog.id });
+            } else {
+                return res.status(400).json({ msg: "Error creating Blog!"});
+            }
+
+        } catch (e) {
+            console.error(e);
+            return res.status(400).json({ msg: "Error creating Blog!" });
         }
-    })
-    
+    });
+
+
+app.get('/get-all-blogs', async (req, res) => {
+    try {
+        const blogs = await prisma.blog.findMany({})
+        return res.status(201).json({
+            message: "Blog retrieved successfully",
+            blogs: blogs
+        });
+
+    } catch (e) {
+        return res.status(400).json({ msg: "Something went wrong!" })
+    }
+})
+
+app.get('/get-blog', async (req, res) => {
+    try {
+        console.log("enterred endpoineeeeeeeeeeeeeee")
+        const { id } = req.query;
+        console.log(id)
+        const blog = await prisma.blog.findUnique({
+            where: {
+                id: id
+            }
+        })
+        console.log(blog)
+        return res.json({ msg: "Blog retrieved successfully", blog: blog })
+    } catch (e) {
+        return res.status(400).json({ msg: "Something went wrong!" })
+    }
+})
+
+app.get('/delete-blog', async (req, res) => {
+    try {
+        const { id } = req.query;
+        console.log(id)
+        const blog = await prisma.blog.delete({
+            where: {
+                id: id
+            }
+        })
+        console.log(blog)
+        return res.json({ msg: "Blog deleted successfully", blog: blog })
+    } catch (e) {
+        return res.status(400).json({ msg: "Something went wrong!" })
+    }
+})
 // app.post('/createBlog', authMiddleware, upload.fields([{ name: 'bloDp' }, { name: 'mainImage' }]),
 //     async (req, res) => {
 //         const { title, subtitle, content, tags } = req.body;

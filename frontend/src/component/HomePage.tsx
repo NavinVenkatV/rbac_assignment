@@ -7,6 +7,8 @@ import Photo from "./Photo"
 import Footer from "./Footer"
 import { useNavigate } from "react-router-dom";
 import Skeleton from '@mui/material/Skeleton';
+import { jwtDecode } from "jwt-decode";
+
 
 function HomePage() {
     type Blog = {
@@ -18,17 +20,36 @@ function HomePage() {
     const navigate = useNavigate();
     const [blogs, setBlogs] = useState<Blog[]>([]);
     const [loading, setLoading] = useState(true);
+    const [admin, setAdmin] = useState(false)
+  
+    type jwtType = {
+      email : string
+    }
+  
+    useEffect(() => {
+     
+    }, [])
 
     useEffect(() => {
         const token = localStorage.getItem('token')
         if (!token) {
             navigate('/')
         }
+        console.log(token)
+        if (token) {
+          console.log('sssssssssssssssssssssssssssssssssssssssssssssssssssssss')
+          const decoded = jwtDecode<jwtType>(token)
+          console.log('tttttttttttttt')
+          console.log(decoded)
+          if (decoded?.email === 'vnavinvenkat@gmail.com') {
+            setAdmin(true)
+          }
+        }
         const endPoint = async () => {
             const res = await axios.get('https://rbac-assignment-39wk.onrender.com/get-all-blogs');
             console.log(res.data);
             setBlogs(res.data.blogs)
-            if (res.data) {
+            if (res.data.blogs) {
                     setLoading(false)
             }
         }
@@ -98,7 +119,7 @@ function HomePage() {
                     <div className="flex flex-wrap gap-8 justify-center mt-7">
                         {blogs.map((b, i) => (
                             <div key={i} className="w-[400px] h-auto"> {/* Set fixed size for each image container */}
-                                <Photo onClick={() => {
+                                <Photo admin={admin} onClick={() => {
                                     navigate(`/blog?id=${b.id}`)
                                 }} title={b.title} category={b.category} image={b.mainImage} />
                             </div>

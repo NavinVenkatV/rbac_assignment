@@ -22,10 +22,10 @@ function Footer() {
 
                 <div className="md:flex gap-4 md:justify-between items-center text-neutral-500 text-sm py-4 ">
                     <div className="flex gap-4">
-                        <a href="/terms" className="flex items-center gap-1 hover:text-white transition-all duration-200 ease-in-out ">
+                        <a className="flex items-center gap-1 hover:text-white transition-all duration-200 ease-in-out ">
                              Terms Of Services
                         </a>
-                        <a href="/privacy" className="flex items-center gap-1 hover:text-white transition-all duration-200 ease-in-out ">
+                        <a  className="flex items-center gap-1 hover:text-white transition-all duration-200 ease-in-out ">
                         Privacy
                         </a>
                     </div>
