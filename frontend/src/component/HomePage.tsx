@@ -21,6 +21,7 @@ function HomePage() {
     const [blogs, setBlogs] = useState<Blog[]>([]);
     const [loading, setLoading] = useState(true);
     const [admin, setAdmin] = useState(false)
+    const [isDelete, setIsDelete] = useState(false);
   
     type jwtType = {
       email : string
@@ -35,7 +36,7 @@ function HomePage() {
             }
         }
         endPoint();
-    })
+    },[isDelete])
 
 
     useEffect(() => {
@@ -121,7 +122,7 @@ function HomePage() {
                             <div key={i} className="w-[400px] h-auto"> {/* Set fixed size for each image container */}
                                 <Photo admin={admin} onClick={() => {
                                     navigate(`/blog?id=${b.id}`)
-                                }} title={b.title} category={b.category} image={b.mainImage} />
+                                }} title={b.title} category={b.category} id={b.id} setIsDelete={setIsDelete} image={b.mainImage} />
                             </div>
                         ))}
                     </div>

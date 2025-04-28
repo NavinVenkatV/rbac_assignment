@@ -32,6 +32,7 @@ function Login() {
         : 'https://rbac-assignment-39wk.onrender.com/signIn';
 
       const res = await axios.post(url, { email, password });
+      console.log(res.data.response)
       setMsg(res.data.data.msg)
       const token = res.data.data.token;
       if (token) {
@@ -41,10 +42,10 @@ function Login() {
       }
       setLoading(false)
       navigate('/home');
-    } catch (error) {
+    } catch (error : any) {
       console.error("Error:", error);
       setLoading(false)
-      alert(error);
+      alert(error.response.data.msg);
     }
   };
 

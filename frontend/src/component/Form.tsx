@@ -51,17 +51,15 @@ function CreateBlogForm() {
         formData.append("tags", tags);
     
         try {
-            // Send POST request to the backend
-            const response = await axios.post('http://localhost:3001/createBlog', formData, {
+            const response = await axios.post('https://rbac-assignment-39wk.onrender.com/createBlog', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    token,  // Add token to the headers
+                    token,  
                 },
             });
     
             if (response.data) {
                 alert("Blog uploaded successfully!");
-                // Clear form inputs after successful upload
                 setMainImage(null);
                 setCategory('');
                 setContent('');

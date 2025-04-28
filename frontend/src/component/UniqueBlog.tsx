@@ -90,7 +90,7 @@ function UniqueBlog() {
                                 <img src={blogs.mainImage}
                                     alt="" className="rounded-xl w-[1000px] h-[500px] mt-3 object-cover" />
                             </div>
-                            <p className="text-xl text-neutral-600 font-bold mt-3 whitespace-pre-line">{blogs.content}</p>
+                            <p className="text-xl text-neutral-600 font-extrabold mt-3 whitespace-pre-line">{blogs.content}</p>
                         </div>
                     </div>
                 )}
