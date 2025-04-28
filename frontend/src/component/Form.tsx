@@ -60,7 +60,6 @@ function CreateBlogForm() {
             });
     
             if (response.data) {
-                alert("Blog uploaded successfully!");
                 setMainImage(null);
                 setCategory('');
                 setContent('');

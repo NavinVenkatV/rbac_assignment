@@ -25,27 +25,31 @@ function Login() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      setLoading(true)
+      setLoading(true);
+  
       const url = signIn
-        ? 'https://rbac-assignment-1.onrender.com/signUp'
-        : 'https://rbac-assignment-1.onrender.com/signIn';
-
+        ? 'https://rbac-assignment-1.onrender.com/signIn' // Correct: signIn => /signIn
+        : 'https://rbac-assignment-1.onrender.com/signUp'; // Correct: signUp => /signUp
+  
       const res = await axios.post(url, { email, password });
-      console.log(res.data.response)
-      const token = res.data.data.token;
+  
+      const token = res.data?.data?.token;
       if (token) {
         localStorage.setItem("token", token);
         setEmail("");  
         setPassword("");  
+        navigate('/home'); // Navigate only after successful token save
       }
-      setLoading(false)
-      navigate('/home');
-    } catch (error : any) {
+  
+      setLoading(false);
+    } catch (error: any) {
       console.error("Error:", error);
-      setLoading(false)
-      alert(error.response.data.msg);
+      setLoading(false);
+      const errorMsg = error?.response?.data?.msg || "Something went wrong. Please try again.";
+      alert(errorMsg);
     }
-  };
+  }
+  
 
   return (
     <div className="flex w-full h-screen px-3 justify-center gap-10 overflow-y-hidden items-center md:bg-gray-100">
