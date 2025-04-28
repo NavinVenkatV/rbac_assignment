@@ -10,8 +10,10 @@ function CreateBlogForm() {
     const [subtitle, setSubtitle] = useState('');
     const [content, setContent] = useState('');
     const [tags, setTags] = useState('');
+    const [loading, setLoading] = useState('Create Blog')
 
     const handleButton = async () => {
+        setLoading('Sumitting...')
         console.log("Entered blog submit");
     
         // Check for missing fields
@@ -65,6 +67,7 @@ function CreateBlogForm() {
                 setSubtitle('');
                 setTags('');
                 setTitle('');
+                setLoading('Submitted!')
             }
         } catch (error) {
             console.error("Error:", error);
@@ -177,7 +180,7 @@ function CreateBlogForm() {
                         className="bg-white text-black hover:text-white cursor-pointer hover:bg-neutral-900 font-bold py-2 px-6 rounded-full transition-all duration-200 ease-in-out"
                         onClick={handleButton}
                     >
-                        Create Blog
+                        {loading}
                     </button>
                 </div>
             </div>
