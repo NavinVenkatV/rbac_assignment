@@ -5,7 +5,7 @@ interface Typess {
     image: any;
     category: any;
     onClick: () => void;
-    admin?: boolean
+    admin?: boolean;
 }
 
 function Photo({ title, admin, image, category, onClick }: Typess) {

@@ -25,6 +25,17 @@ function HomePage() {
     type jwtType = {
       email : string
     }
+    useEffect(() =>{
+        const endPoint = async () => {
+            const res = await axios.get('https://rbac-assignment-39wk.onrender.com/get-all-blogs');
+            console.log(res.data);
+            setBlogs(res.data.blogs)
+            if (res.data.blogs) {
+                    setLoading(false)
+            }
+        }
+        endPoint();
+    }, [])
 
 
     useEffect(() => {
@@ -43,15 +54,6 @@ function HomePage() {
             setAdmin(true)
           }
         }
-        const endPoint = async () => {
-            const res = await axios.get('https://rbac-assignment-39wk.onrender.com/get-all-blogs');
-            console.log(res.data);
-            setBlogs(res.data.blogs)
-            if (res.data.blogs) {
-                    setLoading(false)
-            }
-        }
-        endPoint();
     }, [])
 
     const handleOut = ()=>{

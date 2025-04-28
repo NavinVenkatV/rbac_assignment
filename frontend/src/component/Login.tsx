@@ -23,14 +23,9 @@ function Login() {
   },[])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    setLoading(true)
     e.preventDefault();
     try {
-      if (!email || !password) {
-        alert("Please enter both email and password.");
-        return;
-      }
-
+      setLoading(true)
       const url = signIn
         ? 'https://rbac-assignment-39wk.onrender.com/signUp'
         : 'https://rbac-assignment-39wk.onrender.com/signIn';
