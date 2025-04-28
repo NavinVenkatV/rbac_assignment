@@ -25,15 +25,13 @@ function HomePage() {
     type jwtType = {
       email : string
     }
-  
-    useEffect(() => {
-     
-    }, [])
+
 
     useEffect(() => {
         const token = localStorage.getItem('token')
-        if (!token) {
-            navigate('/')
+        if(!token){
+            navigate('/');
+            return;
         }
         console.log(token)
         if (token) {

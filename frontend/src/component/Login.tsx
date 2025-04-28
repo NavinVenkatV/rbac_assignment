@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Spinner from "./ui/Spinner";
@@ -9,6 +9,19 @@ function Login() {
   const [password, setPassword] = useState<string>("");
   const [signIn, setSignIn] = useState<boolean>(false);
   const [loading, setLoading] = useState(false)
+
+  useEffect(() =>{
+    console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+    const token = async () =>{
+      const isIt =  localStorage.getItem('token')
+      console.log(isIt)
+      if(isIt){
+        navigate('/home')
+      }
+    }
+    token();
+  },[])
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setLoading(true)
     e.preventDefault();
@@ -33,6 +46,7 @@ function Login() {
       navigate('/home');
     } catch (error) {
       console.error("Error:", error);
+      setLoading(false)
       alert("User doesn't exists, please sign up");
     }
   };
